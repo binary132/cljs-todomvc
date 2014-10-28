@@ -1,10 +1,10 @@
-(ns mies-om-sample.core
+(ns cljs-todomvc.core
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]))
 
 (enable-console-print!)
 
-(def app-state (atom {:text "Hello world!"}))
+(def app-state (atom {:text "Hello fdsa!"}))
 
 (om/root
   (fn [app owner]

@@ -10,3 +10,9 @@ pom.xml
 
 # Swapfiles
 *.sw[op]
+
+# Compiled js
+*.js
+
+# NREPL
+.nrepl-port

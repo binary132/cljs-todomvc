@@ -16,3 +16,6 @@ pom.xml
 
 # NREPL
 .nrepl-port
+
+# Live eval index
+index_lt.html

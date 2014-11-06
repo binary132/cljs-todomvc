@@ -7,6 +7,7 @@
             [clojure.string :as string]))
 
 ; https://github.com/swannodette/om/wiki/Basic-Tutorial#dealing-with-text-input-fields
+; https://github.com/swannodette/om/wiki/Basic-Tutorial#higher-order-components
 
 (enable-console-print!)
 
@@ -29,11 +30,13 @@
         (>= c 2) (assoc :middle middle)))))
 
 (defn add-contact [app owner]
-  (let [new-contact (-> (om/get-node owner "new-contact")
+  (let [input (om/get-node owner "new-contact")
+        new-contact (-> (om/get-node owner "new-contact")
                         .-value
                         parse-contact)]
     (when new-contact
-      (om/transact! app :contacts #(conj % new-contact)))))
+      (om/transact! app :contacts #(conj % new-contact))
+      (set! (.-value input) ""))))
 
 (defn middle-name [{:keys [middle middle-initial]}]
   (cond
@@ -46,7 +49,7 @@
 (defn contact-view [contact owner]
   (reify
     om/IRenderState
-    (render-state [this {:keys [delete]}]
+      (render-state [this {:keys [delete]}]
       (dom/li nil
         (dom/span nil (display-name contact))
         (dom/button #js {:onClick (fn [e] (put! delete @contact))} "Baleet")))))
@@ -55,7 +58,8 @@
   (reify
     om/IInitState
     (init-state [_]
-      {:delete (chan)})
+      {:delete (chan)
+       :button-name "Add"})
     om/IWillMount
     (will-mount [_]
       (let [delete (om/get-state owner :delete)]
@@ -73,7 +77,7 @@
             {:init-state state}))
         (dom/div nil
           (dom/input #js {:type "text" :ref "new-contact"})
-          (dom/button #js {:onClick #(add-contact app owner)} "Add contact"))))))
+          (dom/button #js {:onClick #(add-contact app owner)} (:button-name state)))))))
 
 (defn stripe [text bgc]
   (let [st #js {:backgroundColor bgc}]
@@ -83,3 +87,4 @@
   contacts-view
   app-state
   {:target (. js/document (getElementById "contacts"))})
+

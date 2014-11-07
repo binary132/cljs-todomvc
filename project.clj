@@ -7,6 +7,7 @@
                  [org.clojure/clojurescript "0.0-2371"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [om "0.7.3"]
+                 [garden "1.2.5"]
                  [jasmine-cljs "0.1.5"]]
   :plugins [[lein-cljsbuild "1.0.3"]]
   :cljsbuild {
